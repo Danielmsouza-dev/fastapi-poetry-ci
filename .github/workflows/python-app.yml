@@ -29,3 +29,20 @@ jobs:
 
       - name: Run tests
         run: poetry run pytest
+
+      - name: Build Docker image
+        run: docker build -t fastapi-app:latest .
+
+      - name: Run container smoke test
+        run: |
+          docker run --detach --name fastapi-app-smoke -p 127.0.0.1:8000:8000 fastapi-app:latest
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8000/health; then
+              docker rm --force fastapi-app-smoke
+              exit 0
+            fi
+            sleep 2
+          done
+          docker logs fastapi-app-smoke
+          docker rm --force fastapi-app-smoke
+          exit 1

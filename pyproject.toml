@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "fastapi-poetry-ci"
+version = "0.1.0"
+description = "Minimal FastAPI app for the Poetry and Docker CI exercise"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+fastapi = "0.115.12"
+uvicorn = "0.34.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "8.3.5"
+httpx = "0.28.1"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
